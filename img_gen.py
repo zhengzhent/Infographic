@@ -45,14 +45,14 @@ image_url = response_illus.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/illus_image_Qwen_image.png', 'wb') as f:
+with open('output/image/illus_image_Qwen_image_DSV3.png', 'wb') as f:
     f.write(image_data)
 
 image_url = response_text.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/text_image_Qwen_image.png', 'wb') as f:
+with open('output/image/text_image_Qwen_DSV3.png', 'wb') as f:
     f.write(image_data)
 
 print("succuss generate image")
@@ -74,8 +74,8 @@ print("succuss generate image")
 #         return file.read()
 
 # # 从txt文件中读取prompt
-# illus_prompt = read_prompt_from_file('output/illus_prompt_deepseekV3.txt')
-# text_prompt = read_prompt_from_file('output/text_prompt_deepseekV3.txt')
+# illus_prompt = read_prompt_from_file('output/illus_prompt_Qwen3-235B.txt')
+# text_prompt = read_prompt_from_file('output/text_prompt_Qwen3-235B.txt')
 
 # # 生成illus图片
 # response_illus = client.images.generate(
@@ -97,11 +97,11 @@ print("succuss generate image")
 
 # #保存图片 
 # illus_image_bytes = base64.b64decode(response_illus.data[0].b64_json)
-# with open("output/image/illus_image_high_GPTimage.png", "wb") as f:
+# with open("output/image/illus_image_high_GPTimage_Qwen3-235B.png", "wb") as f:
 #     f.write(illus_image_bytes)
 
 # text_image_bytes = base64.b64decode(response_text.data[0].b64_json)
-# with open("output/image/text_image_high_GPTimage.png", "wb") as f:
+# with open("output/image/text_image_high_GPTimage_Qwen3-235B.png", "wb") as f:
 #     f.write(text_image_bytes)
 
 # print("succuss generate image")
