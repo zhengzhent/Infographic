@@ -148,7 +148,7 @@ You are a professional chart-drawing expert, skilled in using D3 code to create 
 - Receive from the user a dataset with a title and a chart description, as well as the illustration and Text image.
 - Title: {title}
 - Data: {data}
-- The path to the illustration is "image/illus_image_GPTimage.png", and the path to the Text image is "image/text_image_GPTimage.png".
+- The path to the illustration is "transparent_image/Qwen_illus.png", and the path to the Text image is "transparent_image/Qwen_text.png".
 #Specific Requirements
 First, draw a chart in the given chart area using D3 format. Then, reserve space for the Text image and illustration with placeholders, and afterwards insert the illustration and Text image PNGs into their respective positions. Finally, generate an infographic in HTML format.
 #Chart Drawing
@@ -157,7 +157,7 @@ Generate a minimalist vertical bar chart: the input is a set of (category, value
 Layout information: canvas size is 1080 · 1920, element sizes and positions:
  The position refers to the offset of the element’s top-left corner from the canvas origin (the top-left corner)
  <RESULT>    
- Text image: Size (1080x400), Position (0,0)    
+ Text image: Size (1080x600), Position (0,0)    
  illustration: Size (512x512), Position (0,640)    
  chart: Size (1080x1280), Position (0,640)  
  </RESULT>

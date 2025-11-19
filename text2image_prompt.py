@@ -27,7 +27,7 @@ title = second_column
 def make_illus_prompt(title: str) -> str:
     return f"""
 # Task Requirements
-I want to generate **a visual illustration** for an infographic poster with the title **"{title}"**. Please help me generate a text segment as a **prompt for a text-to-image model** to create an appropriate visual element that complements and enhances the infographic content. The illustration should be **visually appealing, thematically relevant, and informative** with a **transparent  background** and **absolutely no text or words**. You need to design it from the following perspective (**Attention! The following content is provided only as a prompt for your consideration. No response or output is required!**):
+I want to generate **a visual illustration** for an infographic poster with the title **"{title}"**. Please help me generate a text segment as a **prompt for a text-to-image model** to create an appropriate visual element that complements and enhances the infographic content. The illustration should be **visually appealing, thematically relevant, and informative** with a **white  background** and **absolutely no text or words**. You need to design it from the following perspective (**Attention! The following content is provided only as a prompt for your consideration. No response or output is required!**):
 
 ## Visual Style and Theme Matching
 In this aspect, you will decide the **overall style and thematic coherence** of the illustration. You need to analyze the title "{title}" and determine what type of visual element would best complement the infographic design. Consider whether the topic calls for specific visual metaphors, conceptual illustrations, data visualizations, or thematic imagery.
@@ -37,7 +37,7 @@ Please provide:
 3. The core concept from "{title}" that should be visually represented through compelling imagery.
 4. The specific visual elements that would effectively communicate and enhance the main ideas (e.g., abstract shapes, conceptual scenes, symbolic representations, data-inspired visuals).
 5. The level of detail appropriate for the illustration (e.g., clean minimalist design, moderately detailed artwork, or rich conceptual illustration).
-6. The background should remain **transparent**, and do not render the title.
+6. The background should remain **white**, and do not render the title.
 7. **In the prompt, you need to stress that the illustration must contain no text, words, or letters whatsoever, focusing purely on visual communication.**
 
 # Output
@@ -49,7 +49,6 @@ Please provide:
 5. Ensure the prompt emphasizes that the illustration should be professionally designed, visually engaging, and suitable for modern infographic design.
 6. **Explicitly state that the image must contain absolutely no text, words, letters, or any written content.**
 7. **Focus on creating a cohesive visual element that enhances the infographic without competing with the data presentation.**
-8. The background should remain **transparent**, and do not render the title.
 
 Based on the above requirements, please output your design: 
 """
@@ -58,7 +57,7 @@ Based on the above requirements, please output your design:
 def make_text_prompt(title: str) -> str:
      return f"""
 # Task Requirements
-I want to generate a **text image**, which will be used as the title of a poster in the future. Please help me generate a text segment as a **prompt for a text-to-image model** to create an appropriate text image. The content of the text is **"{title}"**, and the image background is **transparent**. You need to design it from the following three perspectives (**Attention! The following content is provided only as a prompt for your consideration. No response or output is required!**):
+I want to generate a **text image**, which will be used as the title of a poster in the future. Please help me generate a text segment as a **prompt for a text-to-image model** to create an appropriate text image. The content of the text is **"{title}"**, and the image background is **white**. You need to design it from the following three perspectives (**Attention! The following content is provided only as a prompt for your consideration. No response or output is required!**):
 
 ## Text Layout and Emphasis
 In this aspect, you will decide the **overall layout of the text**. You need to appropriately break down the title "{title}" into lines according to its semantics. and consider whether certain key text should be emphasized. If "{title}" includes two or more sentences, the first sentence should be the main title, and the following sentences do not need to be emphasized.
@@ -79,7 +78,7 @@ In this aspect, you will decide whether to **decorate the text with icons**. You
 In this aspect, you will decide the **font style and artistic effects** for the text. You need to judge whether "{title}" is suitable for a specific font style (e.g., classical, futuristic, anime-style, etc.) and certain artistic text effects (e.g., cracks on the text surface, melting text, etc.). If applicable, please provide:
 1. The font style, such as classical, futuristic, anime-style, etc.
 2. The artistic effect, such as cracks on the text surface, melting text, burning text, etc.
-3. The background should be **Transparent**.
+3. The background should be **white**.
 
 # Output
 **Output Requirements**:
@@ -95,7 +94,7 @@ text_prompt = make_text_prompt(title)
 
 # ----  call ----
 response_illus = client.chat.completions.create(
-    model="Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model="deepseek-ai/DeepSeek-V3",
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user",   "content": illus_prompt},
@@ -104,7 +103,7 @@ response_illus = client.chat.completions.create(
 )
 
 response_text = client.chat.completions.create(
-    model="Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model="deepseek-ai/DeepSeek-V3",
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user",   "content": text_prompt},
@@ -139,7 +138,7 @@ def save_response_to_file(response, filename):
                 f.write(chunk.choices[0].delta.reasoning_content)
 
 # 保存illu_prompt
-save_response_to_file(response_illus, 'illus_prompt_qwen3_235B.txt')
+save_response_to_file(response_illus, 'illus_prompt_deepseekV3.txt')
 # 保存text_prompt
-save_response_to_file(response_text, 'text_prompt_qwen3_235B.txt')
+save_response_to_file(response_text, 'text_prompt_deepseekV3.txt')
 print("prompt已保存。")
