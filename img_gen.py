@@ -15,8 +15,8 @@ def read_prompt_from_file(filename):
         return file.read()
 
 # 从txt文件中读取prompt
-illus_prompt = read_prompt_from_file('output/illus_prompt_deepseekV3.txt')
-text_prompt = read_prompt_from_file('output/text_prompt_deepseekV3.txt')
+illus_prompt = read_prompt_from_file('output/illus_test.txt')
+text_prompt = read_prompt_from_file('output/text_test.txt')
 
 # 生成illus图片
 response_illus = client.images.generate(
@@ -33,7 +33,7 @@ response_illus = client.images.generate(
 response_text = client.images.generate(
     model="Qwen/Qwen-Image", 
     prompt=text_prompt, 
-    size="1664x928", 
+    size="1584x1056", 
     n=1,
     extra_body={
         "step": 20
@@ -45,14 +45,14 @@ image_url = response_illus.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/illus_image_Qwen_image_DSV3.png', 'wb') as f:
+with open('output/image/illus_image_Qwen_image_test.png', 'wb') as f:
     f.write(image_data)
 
 image_url = response_text.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/text_image_Qwen_DSV3.png', 'wb') as f:
+with open('output/image/text_image_Qwen_test.png', 'wb') as f:
     f.write(image_data)
 
 print("succuss generate image")

@@ -1,10 +1,7 @@
-Agriculture and Food Production,Fertilizer Price,$/ton
-trend,stable_falling,exponential_falling
-Year,Solara Sugarbeet,Skyberry Pulp
-1954,298.33,306.95
-1955,298.33,274.13
-1956,281.88,255.9
-1957,271.28,226.57
-1958,257.92,201.55
-1959,260.83,183.3
-1960,252.3,164.26
+Agriculture and Food Production, Agricultural Production for different crops by Country, thousand tonnes, vertical
+Cities,Potato,Rice,Corn,Barley,Oats,Cotton,Coffee
+Lakeview,262,229,48,72,72,205,177
+Ashford,136,115,184,132,244,277,234
+Springfield,203,237,136,97,235,144,206
+Creston,81,249,90,70,158,54,245
+Ironwood,242,218,111,136,222,229,97

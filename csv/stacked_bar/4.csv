@@ -1,11 +1,12 @@
-Agriculture and Food Production,Water Usage,cubic meters
-trend,stable_rising,volatile_falling
-Year,Starfall Organics,Misty Meadow Acres
-2001,2015028.24,1939790.14
-2002,2095291.85,1940555.53
-2003,2232205.18,1769822.74
-2004,2249224.01,1624874.05
-2005,2415227.23,1421017.55
-2006,2493376.55,1477269.42
-2007,2587856.5,1223060.23
-2008,2733124.57,1170768.76
+Agriculture and Food Production, Agricultural Production for different crops by Country, thousand tonnes, vertical
+Cities,Sugarcane,Oats
+Westport,120,75
+Oakridge,103,187
+Pinehaven,59,280
+Ironwood,63,40
+Zephyr,40,91
+Rosewood,118,40
+Dunvale,118,91
+Quarryville,40,66
+Highvale,187,89
+Ashford,44,40

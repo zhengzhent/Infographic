@@ -62,7 +62,7 @@ I want to generate a **text image**, which will be used as the title of a poster
 ## Text Layout and Emphasis
 In this aspect, you will decide the **overall layout of the text**. You need to appropriately break down the title "{title}" into lines according to its semantics. and consider whether certain key text should be emphasized. If "{title}" includes two or more sentences, the first sentence should be the main title, and the following sentences do not need to be emphasized.
 Please provide:
-1. How many lines the text should be split into (**each line must contain more than 5 words, and you must provide exactly 1 or 2 lines**). The extra space above and below the text should be kept blank.
+1. How many lines the text should be split into (**each line must contain more than 5 words, and you must provide exactly 1 or 2 lines**). The extra space above and below the text should be kept blank.The text should occupy as much of the entire canvas as possible, with minimal blank space left around the edges.
 2. The specific content of each line.
 3. If there is key text, provide:
    - The key text that should be emphasized.
@@ -77,7 +77,7 @@ In this aspect, you will decide whether to **decorate the text with icons**. You
 ## Font Style and Artistic Effects
 In this aspect, you will decide the **font style and artistic effects** for the text. You need to judge whether "{title}" is suitable for a specific font style (e.g., classical, futuristic, anime-style, etc.) and certain artistic text effects (e.g., cracks on the text surface, melting text, etc.). If applicable, please provide:
 1. The font style, such as classical, futuristic, anime-style, etc.
-2. The artistic effect, such as cracks on the text surface, melting text, burning text, etc.
+2. The artistic effect, such as cracks on the text surface, melting text, burning text, etc.The font should not have any shadows.
 3. The background should be **pure white**.
 
 # Output
@@ -94,7 +94,7 @@ text_prompt = make_text_prompt(title)
 
 # ----  call ----
 response_illus = client.chat.completions.create(
-    model="Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model="deepseek-ai/DeepSeek-V3",
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user",   "content": illus_prompt},
@@ -104,7 +104,7 @@ response_illus = client.chat.completions.create(
 )
 
 response_text = client.chat.completions.create(
-    model="Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model="deepseek-ai/DeepSeek-V3",
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user",   "content": text_prompt},
@@ -140,7 +140,7 @@ def save_response_to_file(response, filename):
                 f.write(chunk.choices[0].delta.reasoning_content)
 
 # 保存illu_prompt
-save_response_to_file(response_illus, 'illus_prompt_Qwen3-235B.txt')
+save_response_to_file(response_illus, 'illus_test.txt')
 # 保存text_prompt
-save_response_to_file(response_text, 'text_prompt_Qwen3-235B.txt')
+save_response_to_file(response_text, 'text_test.txt')
 print("prompt已保存。")
