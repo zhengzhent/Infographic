@@ -45,14 +45,14 @@ image_url = response_illus.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/illus_image_Qwen_image_test.png', 'wb') as f:
+with open('output/image/illus_image_Qwen_image_DSV3.png', 'wb') as f:
     f.write(image_data)
 
 image_url = response_text.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/text_image_Qwen_test.png', 'wb') as f:
+with open('output/image/text_image_Qwen_image_DSV3.png', 'wb') as f:
     f.write(image_data)
 
 print("succuss generate image")

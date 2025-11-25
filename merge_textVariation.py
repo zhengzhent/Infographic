@@ -22,31 +22,31 @@ with open(csv_path, "r", encoding="utf-8") as f:
     title = second_column
 
 # 获取坐标
-def get_position(api_key, image_path, prompt_text, base_url="https://api.example.com/v1"):
-    """
-    调用OpenAI兼容的API
-    """
-    client = OpenAI(
-        api_key=api_key,
-        base_url=base_url
-    )
+# def get_position(api_key, image_path, prompt_text, base_url="https://api.example.com/v1"):
+#     """
+#     调用OpenAI兼容的API
+#     """
+#     client = OpenAI(
+#         api_key=api_key,
+#         base_url=base_url
+#     )
     
-    with open(image_path, "rb") as image_file:
-        response = client.chat.completions.create(
-            model="Qwen/Qwen3-VL-32B-Instruct",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt_text},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(image_file.read()).decode('utf-8')}"}}
-                    ]
-                }
-            ],
-            # max_tokens=1000
-        )
+#     with open(image_path, "rb") as image_file:
+#         response = client.chat.completions.create(
+#             model="Qwen/Qwen3-VL-32B-Instruct",
+#             messages=[
+#                 {
+#                     "role": "user",
+#                     "content": [
+#                         {"type": "text", "text": prompt_text},
+#                         {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(image_file.read()).decode('utf-8')}"}}
+#                     ]
+#                 }
+#             ],
+#             # max_tokens=1000
+#         )
     
-    return response
+#     return response
 
 # 图片编码 
 def encode_image_to_base64(image_path):
@@ -148,7 +148,7 @@ You are a professional chart-drawing expert, skilled in using D3 code to create 
 - Receive from the user a dataset with a title and a chart description, as well as the illustration and Text image.
 - Title: {title}
 - Data: {data}
-- The path to the illustration is "transparent_image/Qwen_illus_test.png", and the path to the Text image is "transparent_image/Qwen_text_test.png".
+- The path to the illustration is "transparent_image/Qwen_illus_DSV3.png", and the path to the Text image is "transparent_image/Qwen_text_DSV3.png".
 #Specific Requirements
 First, draw a chart in the given chart area using D3 format. Then, reserve space for the Text image and illustration with placeholders, and afterwards insert the illustration and Text image PNGs into their respective positions. Finally, generate an infographic in HTML format.
 #Chart Drawing

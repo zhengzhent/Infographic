@@ -65,7 +65,7 @@ response = client.chat.completions.create(
         },
     ],
     modalities=["text", "image"],
-    temperature=0.7,
+    temperature=0.5,
 )
 try:
     # 查看返回的图像内容
@@ -79,7 +79,7 @@ try:
                 image_data = base64.b64decode(part["inline_data"]["data"])
                 image = Image.open(BytesIO(image_data))
                 # image.show() # 取消注释以显示图片
-                image.save("stacked_area_without3.png")
+                image.save("nano_banana_output/stacked_area_without3.png")
                 print("✅ Image saved to: generated_image.png")
             
     else:
