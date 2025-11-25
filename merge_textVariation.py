@@ -11,7 +11,7 @@ output_dir = "output/image"
 csv_path = "csv/bar/1.csv"
 
 openai.api_key = api_key
-os.makedirs(output_dir, exist_ok=True)、
+os.makedirs(output_dir, exist_ok=True)
 
 
 # 设置读入、输出路径
