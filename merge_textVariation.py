@@ -10,16 +10,22 @@ base_url = "https://api.siliconflow.cn/v1"
 output_dir = "output/image"
 csv_path = "csv/bar/1.csv"
 
+openai.api_key = api_key
+os.makedirs(output_dir, exist_ok=True)、
+
+
+# 设置读入、输出路径
 # variation_path = "image/Variation2.png"
 # illustration_path = "output/transparent_image/illus_image.png"  output/transparent_image/Qwen_illus_DSV3.png
 illustration_image_path = os.path.join("transparent_image", "Qwen_illus_DSV3.png") # 为了保证别使用图片的路径与html结果文件（以output为根路径）的路径一致，因此设置html的图片读入由transparent_image文件夹（实际为output/transparent_image文件夹）开始
 
-openai.api_key = api_key
-
 # text_image_path = "output/transparent_image/text_image.png"  output/transparent_image/Qwen_text_DSV3.png
 text_image_path = os.path.join("transparent_image", "Qwen_text_DSV3.png") # 理由同上
 
-os.makedirs(output_dir, exist_ok=True)
+# output_path = os.path.join("output", "result_square_DSV3_csv4.html")
+output_path = os.path.join("output", "test.html")
+
+
 with open(csv_path, "r", encoding="utf-8") as f:
     reader = csv.reader(f)
     first_row = next(reader)  # 读取第一行
@@ -195,8 +201,7 @@ prompt_final = build_prompt_with_csv(csv_path, gen_prompt)
 
 # 生成D3
 result = image_gen(api_key, prompt_final, base_url).choices[0].message.content
-# output_path = os.path.join("output", "result_square_DSV3_csv4.html")
-output_path = os.path.join("output", "test.html")
+
 with open(output_path, "w", encoding = "utf-8") as f:
     f.write(result)
 

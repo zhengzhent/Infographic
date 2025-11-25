@@ -9,6 +9,14 @@ client = OpenAI(api_key="sk-pvumtcpseclngzrccpwqyzyzmqmnunwhwjgdqdseerfkckcm", b
 output_dir = 'output/image'
 os.makedirs(output_dir, exist_ok=True)
 
+
+# 设置输出路径
+# illus_image_Qwen_image_DSV3.png
+result_illus_image_path = os.path.join(output_dir, 'illus_image_Qwen_image_DSV3.png')
+# text_image_Qwen_image_DSV3.png
+result_text_image_path = os.path.join(output_dir, 'text_image_Qwen_image_DSV3.png')
+
+
 # 读取txt文件中的prompt
 def read_prompt_from_file(filename):
     with open(filename, 'r', encoding='utf-8') as file:
@@ -50,8 +58,7 @@ image_url = response_illus.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-# illus_image_Qwen_image_DSV3.png
-result_illus_image_path = os.path.join(output_dir, 'illus_image_Qwen_image_DSV3.png')
+
 with open(result_illus_image_path, 'wb') as f:
     f.write(image_data)
 
@@ -59,8 +66,7 @@ image_url = response_text.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-# text_image_Qwen_image_DSV3.png
-result_text_image_path = os.path.join(output_dir, 'text_image_Qwen_image_DSV3.png')
+
 with open(result_text_image_path, 'wb') as f:
     f.write(image_data)
 

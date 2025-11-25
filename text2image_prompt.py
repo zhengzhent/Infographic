@@ -4,9 +4,12 @@ import csv
 
 csv_path = "csv/bar/1.csv"
   
-# 确保输出目录存在
+# 确保输出目录存在，设置输出路径
 output_dir = 'output'
 os.makedirs(output_dir, exist_ok=True)
+illus_prompt_path = os.path.join(output_dir, 'illus_prompt_deepseekV3.txt')
+text_prompt_path = os.path.join(output_dir, 'text_prompt_deepseekV3.txt')
+
 
 client = OpenAI(api_key="sk-pvumtcpseclngzrccpwqyzyzmqmnunwhwjgdqdseerfkckcm", 
                 base_url="https://api.siliconflow.cn/v1")
@@ -129,8 +132,9 @@ response_text = client.chat.completions.create(
 #         print(chunk.choices[0].delta.content, end="", flush=True)
 #     if chunk.choices[0].delta.reasoning_content:
 #         print(chunk.choices[0].delta.reasoning_content, end="", flush=True)# 提取response_illus内容并保存为illus_prompt.txt
-def save_response_to_file(response, filename):
-    with open(os.path.join(output_dir, filename), 'w', encoding='utf-8') as f:
+
+def save_response_to_file(response, filepath):      # 为方便输出路径更改，将原本的在函数内拼装文件路径改为传参传入路径
+    with open(filepath, 'w', encoding='utf-8') as f:
         for chunk in response:
             if not chunk.choices:
                 continue
@@ -140,9 +144,8 @@ def save_response_to_file(response, filename):
                 f.write(chunk.choices[0].delta.reasoning_content)
 
 # 保存illu_prompt
-illus_prompt_path = os.path.join(output_dir, 'illus_prompt_deepseekV3.txt')
-save_response_to_file(response_illus, 'illus_prompt_deepseekV3.txt')
+save_response_to_file(response_illus, illus_prompt_path)
 # 保存text_prompt
-text_prompt_path = os.path.join(output_dir, 'text_prompt_deepseekV3.txt')
-save_response_to_file(response_text, 'text_prompt_deepseekV3.txt')
+save_response_to_file(response_text, text_prompt_path)
+
 print(f"prompt已保存到 {illus_prompt_path}\n\t\t\t {text_prompt_path}")

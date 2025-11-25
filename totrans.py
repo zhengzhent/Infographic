@@ -53,7 +53,7 @@ def make_transparent(input_image_path, output_image_path, tolerance=20, min_area
     print(f"Image saved: {output_image_path}")
 
 
-# 调用函数
+# 设置输出路径，调用函数
 in_path_dir = "output/image"
 out_path_dir = "output/transparent_image"
 
