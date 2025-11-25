@@ -140,7 +140,9 @@ def save_response_to_file(response, filename):
                 f.write(chunk.choices[0].delta.reasoning_content)
 
 # 保存illu_prompt
+illus_prompt_path = os.path.join(output_dir, 'illus_prompt_deepseekV3.txt')
 save_response_to_file(response_illus, 'illus_prompt_deepseekV3.txt')
 # 保存text_prompt
+text_prompt_path = os.path.join(output_dir, 'text_prompt_deepseekV3.txt')
 save_response_to_file(response_text, 'text_prompt_deepseekV3.txt')
-print("prompt已保存。")
+print(f"prompt已保存到 {illus_prompt_path}\n\t\t\t {text_prompt_path}")

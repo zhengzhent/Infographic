@@ -1,3 +1,4 @@
+import openai
 from openai import OpenAI
 import base64
 import os
@@ -6,12 +7,17 @@ import csv
 api_key = "sk-pvumtcpseclngzrccpwqyzyzmqmnunwhwjgdqdseerfkckcm"
 image_path = "image/template.png"
 base_url = "https://api.siliconflow.cn/v1"
-output_dir = "image/output"
+output_dir = "output/image"
 csv_path = "csv/bar/1.csv"
-variation_path = "image/Variation2.png"
-illustration_path = "image/output/illus_image.png"
-text_image_path = "image/output/text_image.png"
 
+# variation_path = "image/Variation2.png"
+# illustration_path = "output/transparent_image/illus_image.png"  output/transparent_image/Qwen_illus_DSV3.png
+illustration_image_path = os.path.join("transparent_image", "Qwen_illus_DSV3.png") # 为了保证别使用图片的路径与html结果文件（以output为根路径）的路径一致，因此设置html的图片读入由transparent_image文件夹（实际为output/transparent_image文件夹）开始
+
+openai.api_key = api_key
+
+# text_image_path = "output/transparent_image/text_image.png"  output/transparent_image/Qwen_text_DSV3.png
+text_image_path = os.path.join("transparent_image", "Qwen_text_DSV3.png") # 理由同上
 
 os.makedirs(output_dir, exist_ok=True)
 with open(csv_path, "r", encoding="utf-8") as f:
@@ -48,7 +54,8 @@ with open(csv_path, "r", encoding="utf-8") as f:
     
 #     return response
 
-# 图片编码 
+# 图片编码
+
 def encode_image_to_base64(image_path):
     """将图片转换为base64编码"""
     with open(image_path, "rb") as image_file:
@@ -76,7 +83,11 @@ def build_prompt_with_csv(csv_path, prompt_template):
 
     # 嵌入到 prompt 模板中
     # final_prompt = prompt_template.format(data=formatted_data, position=position, title=title)
-    final_prompt = prompt_template.format(data=formatted_data, title=title)
+    final_prompt = prompt_template.format(title = title,
+                                          data = formatted_data,
+                                          illustration_image_path = illustration_image_path,
+                                          text_image_path = text_image_path)
+    # print(final_prompt)
     return final_prompt
 
 # 生成d3
@@ -140,6 +151,9 @@ Please strictly follow the above process and format requirements.
 # print(position)
 # # 生成最后结果的prompt
 
+
+# transparent_image/high_GPT_illus_DSV3.png
+# transparent_image/high_GPT_text_DSV3.png
 gen_prompt = """
 # Role
 You are a professional chart-drawing expert, skilled in using D3 code to create various charts and in composing PNG elements into an HTML infographic.
@@ -148,7 +162,7 @@ You are a professional chart-drawing expert, skilled in using D3 code to create 
 - Receive from the user a dataset with a title and a chart description, as well as the illustration and Text image.
 - Title: {title}
 - Data: {data}
-- The path to the illustration is "transparent_image/high_GPT_illus_DSV3.png", and the path to the Text image is "transparent_image/high_GPT_text_DSV3.png".
+- The path to the illustration is {illustration_image_path}, and the path to the Text image is {text_image_path}.
 #Specific Requirements
 First, draw a chart in the given chart area using D3 format. Then, reserve space for the Text image and illustration with placeholders, and afterwards insert the illustration and Text image PNGs into their respective positions. Finally, generate an infographic in HTML format.
 #Chart Drawing
@@ -168,9 +182,11 @@ The returned result must be a complete, runnable .html file, and within the .htm
 # Notes
 - Strictly follow the reference template’s style; do not change the design on your own.
 - Ensure the D3 code accurately uses the user-provided data to render a chart that meets all requirements.
+# other requirements
+- Only generate text directly related to HTML file execution. Exclude all irrelevant content (including but not limited to redundant descriptions, unnecessary comments, example expansions, format explanations, additional suggestions, etc.). Do not include any responsive text in the result file, such as "Here's the complete HTML code for the infographic:" ; only provide the file itself (e.g., pure HTML code, necessary inline JS/CSS, or essential external resource import statements).
 """
 
-#融合data和position的prompt 
+#融合data和position的prompt
 prompt_final = build_prompt_with_csv(csv_path, gen_prompt)
 # print(prompt_final)
 
@@ -181,7 +197,7 @@ prompt_final = build_prompt_with_csv(csv_path, gen_prompt)
 result = image_gen(api_key, prompt_final, base_url).choices[0].message.content
 # output_path = os.path.join("output", "result_square_DSV3_csv4.html")
 output_path = os.path.join("output", "test.html")
-with open(output_path, "w", encoding="utf-8") as f:
+with open(output_path, "w", encoding = "utf-8") as f:
     f.write(result)
 
 print(f"✅ HTML 文件已保存到: {output_path}")

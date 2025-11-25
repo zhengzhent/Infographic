@@ -14,9 +14,14 @@ def read_prompt_from_file(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         return file.read()
 
+
 # 从txt文件中读取prompt
-illus_prompt = read_prompt_from_file('output/illus_test.txt')
-text_prompt = read_prompt_from_file('output/text_test.txt')
+illus_prompt_path = os.path.join('output', 'illus_prompt_deepseekV3.txt')
+illus_prompt = read_prompt_from_file(illus_prompt_path)
+
+text_prompt_path = os.path.join('output', 'text_prompt_deepseekV3.txt')
+text_prompt = read_prompt_from_file(text_prompt_path)
+
 
 # 生成illus图片
 response_illus = client.images.generate(
@@ -45,17 +50,21 @@ image_url = response_illus.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/illus_image_Qwen_image_DSV3.png', 'wb') as f:
+# illus_image_Qwen_image_DSV3.png
+result_illus_image_path = os.path.join(output_dir, 'illus_image_Qwen_image_DSV3.png')
+with open(result_illus_image_path, 'wb') as f:
     f.write(image_data)
 
 image_url = response_text.data[0].url
 # 下载图片
 image_response = requests.get(image_url)
 image_data = image_response.content
-with open('output/image/text_image_Qwen_image_DSV3.png', 'wb') as f:
+# text_image_Qwen_image_DSV3.png
+result_text_image_path = os.path.join(output_dir, 'text_image_Qwen_image_DSV3.png')
+with open(result_text_image_path, 'wb') as f:
     f.write(image_data)
 
-print("succuss generate image")
+print(f"succuss generate image to {result_illus_image_path}\n\t\t\t\t\t\t{result_text_image_path}")
 # # --------------------------------------------------GPT image
 # import os
 # from openai import OpenAI
