@@ -2,7 +2,7 @@ from openai import OpenAI
 import os
 import csv
 
-csv_path = "csv/1.csv"
+csv_path = "csv/bar/1.csv"
   
 # 确保输出目录存在
 output_dir = 'output'
