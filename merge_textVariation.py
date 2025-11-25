@@ -148,7 +148,7 @@ You are a professional chart-drawing expert, skilled in using D3 code to create 
 - Receive from the user a dataset with a title and a chart description, as well as the illustration and Text image.
 - Title: {title}
 - Data: {data}
-- The path to the illustration is "transparent_image/Qwen_illus_DSV3.png", and the path to the Text image is "transparent_image/Qwen_text_DSV3.png".
+- The path to the illustration is "transparent_image/high_GPT_illus_DSV3.png", and the path to the Text image is "transparent_image/high_GPT_text_DSV3.png".
 #Specific Requirements
 First, draw a chart in the given chart area using D3 format. Then, reserve space for the Text image and illustration with placeholders, and afterwards insert the illustration and Text image PNGs into their respective positions. Finally, generate an infographic in HTML format.
 #Chart Drawing
