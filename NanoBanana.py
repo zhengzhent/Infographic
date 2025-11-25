@@ -65,7 +65,7 @@ response = client.chat.completions.create(
         },
     ],
     modalities=["text", "image"],
-    temperature=0.5,
+    temperature=0.5,    
 )
 try:
     # 查看返回的图像内容
