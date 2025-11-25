@@ -94,7 +94,7 @@ text_prompt = make_text_prompt(title)
 
 # ----  call ----
 response_illus = client.chat.completions.create(
-    model="Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model="deepseek-ai/DeepSeek-V3",
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user",   "content": illus_prompt},
@@ -104,7 +104,7 @@ response_illus = client.chat.completions.create(
 )
 
 response_text = client.chat.completions.create(
-    model="Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model="deepseek-ai/DeepSeek-V3",
     messages=[
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user",   "content": text_prompt},
@@ -140,7 +140,7 @@ def save_response_to_file(response, filename):
                 f.write(chunk.choices[0].delta.reasoning_content)
 
 # 保存illu_prompt
-save_response_to_file(response_illus, 'illus_prompt_Qwen3-235B.txt')
+save_response_to_file(response_illus, 'illus_prompt_deepseekV3.txt')
 # 保存text_prompt
-save_response_to_file(response_text, 'text_prompt_Qwen3-235B.txt')
+save_response_to_file(response_text, 'text_prompt_deepseekV3.txt')
 print("prompt已保存。")

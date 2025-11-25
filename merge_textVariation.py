@@ -8,9 +8,9 @@ image_path = "image/template.png"
 base_url = "https://api.siliconflow.cn/v1"
 output_dir = "image/output"
 csv_path = "csv/1.csv"
-variation_path = "image/Variation2.png"
-illustration_path = "image/output/illus_image.png"
-text_image_path = "image/output/text_image.png"
+# variation_path = "image/Variation2.png"
+illustration_path = "image/output/illus_image_deepseekV3.png"
+text_image_path = "image/output/text_image_deepseekV3.png"
 
 
 os.makedirs(output_dir, exist_ok=True)
@@ -33,7 +33,8 @@ def get_position(api_key, image_path, prompt_text, base_url="https://api.example
     
     with open(image_path, "rb") as image_file:
         response = client.chat.completions.create(
-            model="Qwen/Qwen3-VL-32B-Instruct",
+            # model="Qwen/Qwen3-VL-32B-Instruct",
+            model="deepseek-ai/DeepSeek-V3",
             messages=[
                 {
                     "role": "user",
@@ -148,7 +149,7 @@ You are a professional chart-drawing expert, skilled in using D3 code to create 
 - Receive from the user a dataset with a title and a chart description, as well as the illustration and Text image.
 - Title: {title}
 - Data: {data}
-- The path to the illustration is "transparent_image/Qwen_illus.png", and the path to the Text image is "transparent_image/Qwen_text.png".
+- The path to the illustration is "output/transparent_image/illus_deepseekV3.png", and the path to the Text image is "output/transparent_image/text_deepseekV3.png".
 #Specific Requirements
 First, draw a chart in the given chart area using D3 format. Then, reserve space for the Text image and illustration with placeholders, and afterwards insert the illustration and Text image PNGs into their respective positions. Finally, generate an infographic in HTML format.
 #Chart Drawing
@@ -179,7 +180,7 @@ prompt_final = build_prompt_with_csv(csv_path, gen_prompt)
 
 # 生成D3
 result = image_gen(api_key, prompt_final, base_url).choices[0].message.content
-output_path = os.path.join("output", "result3.html")
+output_path = "result.html"
 with open(output_path, "w", encoding="utf-8") as f:
     f.write(result)
 
