@@ -7,10 +7,10 @@ api_key = "sk-pvumtcpseclngzrccpwqyzyzmqmnunwhwjgdqdseerfkckcm"
 image_path = "image/template.png"
 base_url = "https://api.siliconflow.cn/v1"
 output_dir = "image/output"
-csv_path = "csv/1.csv"
-# variation_path = "image/Variation2.png"
-illustration_path = "image/output/illus_image_deepseekV3.png"
-text_image_path = "image/output/text_image_deepseekV3.png"
+csv_path = "csv/bar/1.csv"
+variation_path = "image/Variation2.png"
+illustration_path = "image/output/illus_image.png"
+text_image_path = "image/output/text_image.png"
 
 
 os.makedirs(output_dir, exist_ok=True)
@@ -22,32 +22,31 @@ with open(csv_path, "r", encoding="utf-8") as f:
     title = second_column
 
 # 获取坐标
-def get_position(api_key, image_path, prompt_text, base_url="https://api.example.com/v1"):
-    """
-    调用OpenAI兼容的API
-    """
-    client = OpenAI(
-        api_key=api_key,
-        base_url=base_url
-    )
+# def get_position(api_key, image_path, prompt_text, base_url="https://api.example.com/v1"):
+#     """
+#     调用OpenAI兼容的API
+#     """
+#     client = OpenAI(
+#         api_key=api_key,
+#         base_url=base_url
+#     )
     
-    with open(image_path, "rb") as image_file:
-        response = client.chat.completions.create(
-            # model="Qwen/Qwen3-VL-32B-Instruct",
-            model="deepseek-ai/DeepSeek-V3",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt_text},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(image_file.read()).decode('utf-8')}"}}
-                    ]
-                }
-            ],
-            # max_tokens=1000
-        )
+#     with open(image_path, "rb") as image_file:
+#         response = client.chat.completions.create(
+#             model="Qwen/Qwen3-VL-32B-Instruct",
+#             messages=[
+#                 {
+#                     "role": "user",
+#                     "content": [
+#                         {"type": "text", "text": prompt_text},
+#                         {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64.b64encode(image_file.read()).decode('utf-8')}"}}
+#                     ]
+#                 }
+#             ],
+#             # max_tokens=1000
+#         )
     
-    return response
+#     return response
 
 # 图片编码 
 def encode_image_to_base64(image_path):
@@ -91,7 +90,7 @@ def image_gen(api_key,prompt_text, base_url="https://api.example.com/v1"):
     )
     
     response = client.chat.completions.create(
-        model="deepseek-ai/DeepSeek-V3.1-Terminus",
+        model="deepseek-ai/DeepSeek-V3",
         messages=[
             {
                 "role": "user",
@@ -149,23 +148,23 @@ You are a professional chart-drawing expert, skilled in using D3 code to create 
 - Receive from the user a dataset with a title and a chart description, as well as the illustration and Text image.
 - Title: {title}
 - Data: {data}
-- The path to the illustration is "output/transparent_image/illus_deepseekV3.png", and the path to the Text image is "output/transparent_image/text_deepseekV3.png".
+- The path to the illustration is "transparent_image/Qwen_illus_DSV3.png", and the path to the Text image is "transparent_image/Qwen_text_DSV3.png".
 #Specific Requirements
 First, draw a chart in the given chart area using D3 format. Then, reserve space for the Text image and illustration with placeholders, and afterwards insert the illustration and Text image PNGs into their respective positions. Finally, generate an infographic in HTML format.
 #Chart Drawing
 Generate a minimalist vertical bar chart: the input is a set of (category, value) pairs; before drawing the chart, first sort the data by value in ascending order so that the bar heights strictly follow an increasing trend from left to right, consistent with the reference chart; then create one vertical bar for each data item, placing the bars from left to right in this sorted order with equal spacing and equal width, with all bar bottoms aligned on the same horizontal baseline and heights proportional to their values. Each bar should be a pill-shaped vertical rectangle with rounded top and bottom, using a consistent style and no gradients, textures, or shadow effects. The chart should keep only a single baseline at the bottom and should not draw a y-axis, tick marks, grid lines, title, or legend. For each bar, place the category label text centered horizontally below the bar, using the category from the data, and place the value label text centered horizontally above the top of the bar, using the corresponding value from the data. Leave sufficient padding around the edges of the canvas so there is enough space for the value labels at the top and the category labels at the bottom, and do not add any other decorative elements. The color of the chart is determined by the title, and the chart background is transparent so that only the chart elements themselves and the underlying canvas background are visible.
 #Infographic Overall Drawing Requirements
-Layout information: canvas size is 1080 · 1920, element sizes and positions:
+Layout information: canvas size is 1024 · 1024, element sizes and positions:
  The position refers to the offset of the element’s top-left corner from the canvas origin (the top-left corner)
  <RESULT>    
- Text image: Size (1080x600), Position (0,0)    
- illustration: Size (512x512), Position (0,640)    
- chart: Size (1080x1280), Position (0,640)  
+ Text image: Size (800x540), Position (-80,-80)    
+ illustration: Size (350x350), Position (60,350)    
+ chart: Size (1024x1024), Position (0,0)  
  </RESULT>
- - The chart is drawn within the chart area. Placeholders are first reserved for the illustration and the text image, then the provided image paths are inserted. The images are embedded into their corresponding regions within the SVG, and all three elements fully occupy their respective areas. 
-- Based on visual storytelling and readability requirements, choose a suitable canvas background (not white) according to the title—specifically the 1080×1920 canvas background, not the entire webpage background.
+ - The chart is drawn in the chart area, with a margin of 60px from the edges of the chart area, and should occupy as much of the area as possible. Placeholders are first reserved for the illustration and the text image, then the provided image paths are inserted. The images are embedded into their corresponding regions within the SVG, and all three elements fully occupy their respective areas. 
+- Based on visual storytelling and readability requirements, choose a suitable canvas background (not white) according to the title—specifically the 1024×1024 canvas background, not the entire webpage background.
 ## Output Requirements
-The output returned must be D3 code used to draw the chart. It must be a complete, runnable .html file with no additional text.
+The returned result must be a complete, runnable .html file, and within the .html file there must be no additional explanatory or reasoning text outside the <!DOCTYPE html> <html lang="en"> ... </html> tags.
 # Notes
 - Strictly follow the reference template’s style; do not change the design on your own.
 - Ensure the D3 code accurately uses the user-provided data to render a chart that meets all requirements.
@@ -180,7 +179,8 @@ prompt_final = build_prompt_with_csv(csv_path, gen_prompt)
 
 # 生成D3
 result = image_gen(api_key, prompt_final, base_url).choices[0].message.content
-output_path = "result.html"
+# output_path = os.path.join("output", "result_square_DSV3_csv4.html")
+output_path = os.path.join("output", "test.html")
 with open(output_path, "w", encoding="utf-8") as f:
     f.write(result)
 
