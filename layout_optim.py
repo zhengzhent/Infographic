@@ -81,7 +81,7 @@ Data: {data}
 - Inside this container, create exactly one `<svg>` element, which serves as the canvas for the entire infographic.
 - All chart elements (axes, gridlines, bars/lines/scatter points, text, decorative graphics, etc.) must be drawn inside this single `<svg>`.
 - Chart size and position (top-left corner of the chart relative to the top-left corner of the canvas):
-  - `chart: Size (1000x570), Position (16, 420)`
+  - `chart: Size (1000x570), Position (16, 400)`
 - Based on the title and the needs of visual storytelling and readability, choose an appropriate background color for the 1024×1024 canvas (it must not be white). This background refers to the SVG canvas background, not the background color of the entire webpage.
 # Chart Drawing
 - In this section, you need to generate a minimalist-style vertical bar chart. The input is a set of (category, value) data pairs.
@@ -97,7 +97,7 @@ Data: {data}
 # Notes
 - Strictly adhere to the style of the reference template and do not make design changes on your own.
 - Ensure the D3 code strictly uses the data provided by the user to render a chart that meets all the above requirements.
-- A <script src="./layout.js"></script> tag must be added at the end to import the script.
+- A <script src="../../layoutjs/layout2.js"></script> tag must be added at the end to import the script.
 """
 
 # gen_prompt_cn = """
@@ -127,7 +127,7 @@ Data: {data}
 # # 注意事项（Notes）
 # - 必须严格遵循参考模板的风格，不要自行更改设计。
 # - 确保 D3 代码严格使用用户提供的数据，渲染出满足以上所有要求的图表。
-# - 在最后必须添加 `<script src="./layout2.js"></script>` 引入脚本
+# - 在最后必须添加 `<script src="../../layoutjs/layout2.js"></script>` 引入脚本
 # """
 
 #融合data和position的prompt 
