@@ -62,7 +62,7 @@ I want to generate a **text image**, which will be used as the title of a poster
 ## Text Layout and Emphasis
 In this aspect, you will decide the **overall layout of the text**. You need to appropriately break down the title "{title}" into lines according to its semantics. and consider whether certain key text should be emphasized. If "{title}" includes two or more sentences, the first sentence should be the main title, and the following sentences do not need to be emphasized.
 Please provide:
-1. How many lines the text should be split into (**each line must contain more than 5 words, and you must provide exactly 1 or 2 lines**). The extra space above and below the text should be kept blank.The text should occupy as much of the entire canvas as possible, with minimal blank space left around the edges.
+1. How many lines the text should be split into (**each line must contain more than 5 words, and you must provide exactly 1 or 2 lines**). The text should occupy as much of the entire canvas as possible, with minimal blank space left around the edges.
 2. The specific content of each line.
 3. If there is key text, provide:
    - The key text that should be emphasized.

@@ -53,5 +53,5 @@ def make_transparent(input_image_path, output_image_path, tolerance=20, min_area
     print(f"Image saved: {output_image_path}")
 
 # 调用函数
-make_transparent("output/image/illus_image_Qwen_image_DSV3.png", "output/transparent_image/Qwen_illus_DSV3.png")
-make_transparent("output/image/text_image_Qwen_image_DSV3.png", "output/transparent_image/Qwen_text_DSV3.png")
+make_transparent("output/image/illus_GPTimage_DSV3_trimed.png", "output/transparent_image/illus_GPTimage_trimed_trans.png")
+make_transparent("output/image/text_GPTimage_DSV3_trimed.png", "output/transparent_image/text_GPTimage_trimed_trans.png")
