@@ -52,15 +52,6 @@ def make_transparent(input_image_path, output_image_path, tolerance=20, min_area
     img.save(output_image_path)
     print(f"Image saved: {output_image_path}")
 
-
-# 设置输出路径，调用函数
-in_path_dir = "output/image"
-out_path_dir = "output/transparent_image"
-
-illus_input_path = os.path.join(in_path_dir, "illus_image_Qwen_image_DSV3.png")
-illus_output_path = os.path.join(out_path_dir, "Qwen_illus_DSV3.png")
-make_transparent(illus_input_path, illus_output_path)
-
-text_input_path = os.path.join(in_path_dir, "text_image_Qwen_image_DSV3.png")
-text_output_path = os.path.join(out_path_dir, "Qwen_text_DSV3.png")
-make_transparent(text_input_path, text_output_path)
+# 调用函数
+make_transparent("output/image/illus_GPTimage_DSV3_trimed.png", "output/transparent_image/illus_GPTimage_trimed_trans.png")
+make_transparent("output/image/text_GPTimage_DSV3_trimed.png", "output/transparent_image/text_GPTimage_trimed_trans.png")
