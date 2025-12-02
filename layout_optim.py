@@ -97,7 +97,7 @@ Data: {data}
 # Notes
 - Strictly adhere to the style of the reference template and do not make design changes on your own.
 - Ensure the D3 code strictly uses the data provided by the user to render a chart that meets all the above requirements.
-- A <script src="../../layoutjs/layout2.js"></script> tag must be added at the end to import the script.
+- A <script src="./layoutjs/layout2.js"></script> tag must be added at the end to import the script.
 """
 
 # gen_prompt_cn = """
