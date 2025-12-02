@@ -1,0 +1,133 @@
+Here's the complete HTML file for the infographic:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Production of Different Crops In An Area</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #infographic {
+            width: 1024px;
+            height: 1024px;
+            background-color: #f5f5dc;
+            position: relative;
+            overflow: hidden;
+        }
+        #chart-container {
+            width: 1024px;
+            height: 1024px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #text-image {
+            width: 800px;
+            height: 540px;
+            position: absolute;
+            top: -80px;
+            left: -80px;
+            background-image: url('transparent_image/Qwen_text_DSV3.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        #illustration {
+            width: 350px;
+            height: 350px;
+            position: absolute;
+            top: 350px;
+            left: 60px;
+            background-image: url('transparent_image/Qwen_illus_DSV3.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div id="infographic">
+        <div id="chart-container"></div>
+        <div id="text-image"></div>
+        <div id="illustration"></div>
+    </div>
+
+    <script>
+        const data = [
+            {category: "Peanut", value: 2993},
+            {category: "Tomato", value: 18154},
+            {category: "Grape", value: 3003},
+            {category: "Potato", value: 10018},
+            {category: "Sugarcane", value: 15839}
+        ];
+
+        // Sort data by value in ascending order
+        data.sort((a, b) => a.value - b.value);
+
+        const margin = {top: 60, right: 60, bottom: 60, left: 60};
+        const width = 1024 - margin.left - margin.right;
+        const height = 1024 - margin.top - margin.bottom;
+
+        const svg = d3.select("#chart-container")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.category))
+            .range([0, width])
+            .padding(0.2);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.value)])
+            .range([height, 0]);
+
+        // Draw baseline
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("y1", height)
+            .attr("x2", width)
+            .attr("y2", height)
+            .attr("stroke", "#333")
+            .attr("stroke-width", 2);
+
+        // Draw bars with rounded corners
+        const barGroup = svg.selectAll(".bar-group")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("class", "bar-group");
+
+        barGroup.append("rect")
+            .attr("x", d => x(d.category))
+            .attr("y", d => y(d.value))
+            .attr("width", x.bandwidth())
+            .attr("height", d => height - y(d.value))
+            .attr("rx", x.bandwidth() / 2)
+            .attr("fill", "#8db600");
+
+        // Add value labels above bars
+        barGroup.append("text")
+            .attr("x", d => x(d.category) + x.bandwidth() / 2)
+            .attr("y", d => y(d.value) - 10)
+            .attr("text-anchor", "middle")
+            .text(d => d.value)
+            .style("font-family", "sans-serif")
+            .style("font-size", "14px")
+            .style("fill", "#333");
+
+        // Add category labels below bars
+        barGroup.append("text")
+            .attr("x", d => x(d.category) + x.bandwidth() / 2)
+            .attr("y", height + 25)
+            .attr("text-anchor", "middle")
+            .text(d => d.category)
+            .style("font-family", "sans-serif")
+            .style("font-size", "14px")
+            .style("fill", "#333");
+    </script>
+</body>
+</html>
+```
