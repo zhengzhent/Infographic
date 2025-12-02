@@ -127,7 +127,7 @@ Data: {data}
 # # 注意事项（Notes）
 # - 必须严格遵循参考模板的风格，不要自行更改设计。
 # - 确保 D3 代码严格使用用户提供的数据，渲染出满足以上所有要求的图表。
-# - 在最后必须添加 `<script src="../../layoutjs/layout2.js"></script>` 引入脚本
+# - 在最后必须添加 `<script src="layout2.js"></script>` 引入脚本
 # """
 
 #融合data和position的prompt 
@@ -140,7 +140,7 @@ prompt_final = build_prompt_with_csv(csv_path, gen_prompt_en)
 # 生成D3
 result = image_gen(api_key, prompt_final, base_url).choices[0].message.content
 # output_path = os.path.join("output", "result_square_DSV3_csv4.html")
-output_path = os.path.join("output", "layoutoptim/test4-en.html")
+output_path = os.path.join("output", "test4-en.html")
 with open(output_path, "w", encoding="utf-8") as f:
     f.write(result)
 
