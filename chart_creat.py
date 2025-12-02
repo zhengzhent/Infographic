@@ -40,16 +40,18 @@ CSV 数据如下：
 # 调用 API（兼容旧版 SDK）
 # -------------------------
 result = ImageSynthesis.call(
-    prompt=prompt,            # 英文，安全
+    prompt,              # ← 第一个位置参数（必须）
     model=MODEL,
     api_key=API_KEY,
     input={
-        "extra": extra_cn     # 中文 body，不进入 header
+        "extra": extra_cn
     },
     parameters={
         "size": "1024*1024"
     }
 )
+
+
 
 # -------------------------
 # 保存图片
