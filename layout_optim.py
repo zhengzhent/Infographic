@@ -57,7 +57,7 @@ def image_gen(api_key,prompt_text, base_url="https://api.example.com/v1"):
     )
     
     response = client.chat.completions.create(
-        model="deepseek-ai/DeepSeek-V3",
+        model="Qwen/Qwen2.5-VL-72B-Instruct",
         messages=[
             {
                 "role": "user",
@@ -69,6 +69,7 @@ def image_gen(api_key,prompt_text, base_url="https://api.example.com/v1"):
     
     return response
 
+# x轴正方向竖直向下，y轴正方形水平向右
 gen_prompt_en = """
 # Role
 You are a professional chart drawing expert proficient in using D3 code to create various types of charts.
@@ -81,14 +82,16 @@ Data: {data}
 - Inside this container, create exactly one `<svg>` element, which serves as the canvas for the entire infographic.
 - All chart elements (axes, gridlines, bars/lines/scatter points, text, decorative graphics, etc.) must be drawn inside this single `<svg>`.
 - Chart size and position (top-left corner of the chart relative to the top-left corner of the canvas):
-  - `chart: Size (1000x570), Position (16, 400)`
+  - `chart: Size (992x558), Position (100, 20)`
+  - The `Position` is the coordinate origin of the chart (i.e., the intersection point of the x-axis and y-axis of the chart).
 - Based on the title and the needs of visual storytelling and readability, choose an appropriate background color for the 1024×1024 canvas (it must not be white). This background refers to the SVG canvas background, not the background color of the entire webpage.
 # Chart Drawing
 - In this section, you need to generate a minimalist-style vertical bar chart. The input is a set of (category, value) data pairs.
-- Then, draw a vertical bar for each data point, arranged from left to right in sorted order, with equal spacing between bars, consistent bar width, and all bars aligned at the same horizontal baseline at the bottom. The height of each bar should be proportional to its corresponding value. Each bar should be a "pill-shaped" vertical rectangle (with rounded top and bottom ends), with a unified overall style, and no gradients, textures, or shadow effects.
-- The chart should retain only a single baseline at the bottom, without drawing a y-axis, tick marks, grid lines, title, or legend.
-- For each bar, place the category label text (using the "category" from the data) horizontally centered below the bottom of the bar, and place the value label text (using the "value" from the data) horizontally centered above the top of the bar.
-- The chart should fill the entire chart area as much as possible, but ensure there is enough space to place the labels. Do not add any other decorations.
+- **Coordinate system setting**: The positive direction of the x-axis is vertically downward, and the positive direction of the y-axis is horizontally to the right. The coordinate origin of the chart is the specified `Position (50, 450)` on the SVG canvas, and all position calculations of chart elements must be based on this coordinate system and origin.
+- Then, draw a vertical bar for each data point, arranged from left to right in sorted order (along the positive y-axis direction starting from the origin), with equal spacing between bars, consistent bar width, and all bars aligned at the same vertical baseline (coinciding with the y-axis of the chart, starting from the origin). The length of each bar should be proportional to its corresponding value (extending along the positive x-axis direction, i.e., vertically downward from the origin). Each bar should be a "pill-shaped" vertical rectangle (with rounded top and bottom ends, where "top" corresponds to the baseline side adjacent to the origin and "bottom" corresponds to the end of the bar along the positive x-axis), with a unified overall style, and no gradients, textures, or shadow effects.
+- The chart should retain only a single baseline (the vertical baseline coinciding with the y-axis of the chart, starting from the origin), without drawing an x-axis, tick marks, grid lines, title, or legend.
+- For each bar, place the category label text (using the "category" from the data) vertically centered to the left of the bar's baseline (along the negative y-axis direction relative to the bar's position on the y-axis), and place the value label text (using the "value" from the data) horizontally centered at the bottom end of the bar (the end along the positive x-axis direction).
+- The chart should fill the entire chart area (800x450) as much as possible, but ensure there is enough space to place the labels. Do not add any other decorations.
 - The color scheme of the chart is determined by the given title. The chart background should remain transparent, displaying only the chart elements themselves and the canvas background below.
 - Use a <div> with an id of chart-container as the container, and create an <svg> inside it as the root node of the chart.
 # Output Requirements
@@ -97,8 +100,71 @@ Data: {data}
 # Notes
 - Strictly adhere to the style of the reference template and do not make design changes on your own.
 - Ensure the D3 code strictly uses the data provided by the user to render a chart that meets all the above requirements.
-- A <script src="./layout2.js"></script> tag must be added at the end to import the script.
-"""
+- A <script src="./layout2.js"></script> tag must be added at the end to import the script."""
+
+# # x轴竖直向下，y轴水平向右
+# gen_prompt_en = """
+# # Role
+# You are a professional chart drawing expert proficient in using D3 code to create various types of charts.
+# # Input Reception
+# Receive a dataset with a title and chart description from the user.
+# Title: {title}
+# Data: {data}
+# # Overall requirements for the infographic
+# - The page must contain a `<div id="chart-container"></div>` as the only container for the infographic. The SVG’s `width` and `height` must both be `1024`.
+# - Inside this container, create exactly one `<svg>` element, which serves as the canvas for the entire infographic.
+# - All chart elements (axes, gridlines, bars/lines/scatter points, text, decorative graphics, etc.) must be drawn inside this single `<svg>`.
+# - Chart size and position (top-left corner of the chart relative to the top-left corner of the canvas):
+#   - `chart: Size (992x558), Position (100, 20)`
+# - Based on the title and the needs of visual storytelling and readability, choose an appropriate background color for the 1024×1024 canvas (it must not be white). This background refers to the SVG canvas background, not the background color of the entire webpage.
+# # Chart Drawing
+# - In this section, you need to generate a minimalist-style vertical bar chart. The input is a set of (category, value) data pairs.
+# - The coordinate system of the chart must be configured with the x-axis vertically downward (positive direction is downward along the vertical axis) and the y-axis horizontally to the right (positive direction is to the right along the horizontal axis). All chart elements must be rendered in accordance with this coordinate system.
+# - Draw a vertical bar for each data point, arranged from left to right in sorted order (following the y-axis direction), with equal spacing between bars, consistent bar width, and all bars aligned at the same baseline (following the x-axis origin). The length of each bar should be proportional to its corresponding value (extending along the x-axis downward direction). Each bar should be a "pill-shaped" vertical rectangle (with rounded top and bottom ends, corresponding to the x-axis direction's two ends), with a unified overall style, and no gradients, textures, or shadow effects.
+# - The chart should retain only a single baseline (consistent with the x-axis origin) at the top of the bars, without drawing a y-axis, tick marks, grid lines, title, or legend.
+# - For each bar, place the category label text (using the "category" from the data) horizontally centered to the left of the bar's left side (aligned with the baseline), and place the value label text (using the "value" from the data) horizontally centered to the right of the bar's bottom end (along the x-axis downward direction).
+# - The chart should fill the entire chart area as much as possible, but ensure there is enough space to place the labels. Do not add any other decorations.
+# - The color scheme of the chart is determined by the given title. The chart background should remain transparent, displaying only the chart elements themselves and the canvas background below.
+# - Use a <div> with an id of chart-container as the container, and create an <svg> inside it as the root node of the chart.
+# # Output Requirements
+# - The returned result must be a complete and runnable .html file.
+# - The answer must start with <!DOCTYPE html> and end with </html>, with standard HTML structure in between. There must not be any explanatory text, and there must be no English comments or descriptions before or after it.
+# # Notes
+# - Strictly adhere to the style of the reference template and do not make design changes on your own.
+# - Ensure the D3 code strictly uses the data provided by the user to render a chart that meets all the above requirements.
+# - A <script src="./layout2.js"></script> tag must be added at the end to import the script."""
+
+# # 原始指令
+# gen_prompt_en = """
+# # Role
+# You are a professional chart drawing expert proficient in using D3 code to create various types of charts.
+# # Input Reception
+# Receive a dataset with a title and chart description from the user.
+# Title: {title}
+# Data: {data}
+# # Overall requirements for the infographic
+# - The page must contain a `<div id="chart-container"></div>` as the only container for the infographic. The SVG’s `width` and `height` must both be `1024`.
+# - Inside this container, create exactly one `<svg>` element, which serves as the canvas for the entire infographic.
+# - All chart elements (axes, gridlines, bars/lines/scatter points, text, decorative graphics, etc.) must be drawn inside this single `<svg>`.
+# - Chart size and position (top-left corner of the chart relative to the top-left corner of the canvas):
+#   - `chart: Size (992x558), Position (16, 425)`
+# - Based on the title and the needs of visual storytelling and readability, choose an appropriate background color for the 1024×1024 canvas (it must not be white). This background refers to the SVG canvas background, not the background color of the entire webpage.
+# # Chart Drawing
+# - In this section, you need to generate a minimalist-style vertical bar chart. The input is a set of (category, value) data pairs.
+# - Then, draw a vertical bar for each data point, arranged from left to right in sorted order, with equal spacing between bars, consistent bar width, and all bars aligned at the same horizontal baseline at the bottom. The height of each bar should be proportional to its corresponding value. Each bar should be a "pill-shaped" vertical rectangle (with rounded top and bottom ends), with a unified overall style, and no gradients, textures, or shadow effects.
+# - The chart should retain only a single baseline at the bottom, without drawing a y-axis, tick marks, grid lines, title, or legend.
+# - For each bar, place the category label text (using the "category" from the data) horizontally centered below the bottom of the bar, and place the value label text (using the "value" from the data) horizontally centered above the top of the bar.
+# - The chart should fill the entire chart area as much as possible, but ensure there is enough space to place the labels. Do not add any other decorations.
+# - The color scheme of the chart is determined by the given title. The chart background should remain transparent, displaying only the chart elements themselves and the canvas background below.
+# - Use a <div> with an id of chart-container as the container, and create an <svg> inside it as the root node of the chart.
+# # Output Requirements
+# - The returned result must be a complete and runnable .html file.
+# - The answer must start with <!DOCTYPE html> and end with </html>, with standard HTML structure in between. There must not be any explanatory text, and there must be no English comments or descriptions before or after it.
+# # Notes
+# - Strictly adhere to the style of the reference template and do not make design changes on your own.
+# - Ensure the D3 code strictly uses the data provided by the user to render a chart that meets all the above requirements.
+# - A <script src="./layout2.js"></script> tag must be added at the end to import the script.
+# """
 
 # gen_prompt_cn = """
 # # 角色（Role）
@@ -140,7 +206,7 @@ prompt_final = build_prompt_with_csv(csv_path, gen_prompt_en)
 # 生成D3
 result = image_gen(api_key, prompt_final, base_url).choices[0].message.content
 # output_path = os.path.join("output", "result_square_DSV3_csv4.html")
-output_path = os.path.join("output", "test4-en.html")
+output_path = os.path.join("output/layoutoptim", "test4-en.html")
 with open(output_path, "w", encoding="utf-8") as f:
     f.write(result)
 
